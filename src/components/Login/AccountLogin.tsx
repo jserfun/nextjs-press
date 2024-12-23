@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { currentUser, login } from '@/services/api';
-import { getFakeImageCaptcha } from '@/services/api';
+import { currentUser, login } from '@/apis/api';
+import { getFakeImageCaptcha } from '@/apis/api';
 import { Button, Form, Image, Input, message } from 'antd';
 import {
   HourglassOutlined,
@@ -47,21 +47,25 @@ const AccountLogin: React.FC<FormLoginProps> = ({ redirect }) => {
   };
 
   const onGetImageCaptcha = useCallback(async () => {
-    getFakeImageCaptcha({ deviceId: deviceId })
-      .then((result: any) => {
-        if (result && result.success)
-          setImageUrl(`data:image/jpeg;base64,${result.imageCode}`);
-      })
-      .catch((error) => {
-        message.error(`获取验证码失败:${error}`);
-      });
+    // getFakeImageCaptcha({ deviceId: deviceId })
+    //   .then((result: any) => {
+    //     console.log('onGetImageCaptcha: %o', result);
+    //     setImageUrl(`data:image/svg+xml;base64,${result.imageCode}`);
+    //   })
+    //   .catch((error) => {
+    //     message.error(`获取验证码失败:${error}`);
+    //   });
+    setImageUrl(
+      'http://localhost:4060/api/v1/captcha/image?deviceId=my-chrome-browser&t=' +
+        Date.now()
+    );
   }, []);
 
   useEffect(() => {
-    const getImageCaptcha = () => {
-      onGetImageCaptcha().then();
-    };
-    getImageCaptcha();
+    setImageUrl(
+      'http://localhost:4060/api/v1/captcha/image?deviceId=my-chrome-browser&t=' +
+        Date.now()
+    );
   }, []);
 
   return (

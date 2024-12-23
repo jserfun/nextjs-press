@@ -7,14 +7,16 @@ const useLoginRedirect = () => {
   const searchParams = useSearchParams();
   const redirect = searchParams.get(REDIRECT_KEY);
   const pathname = usePathname();
-  console.log('pathname', pathname);
+  console.log('[hooks/useLoginRedirect] - pathname: %s', pathname);
 
   if (!redirect) {
     return '/';
   }
+
   if (redirect === pathname) {
     return '/';
   }
+
   return redirect;
 };
 

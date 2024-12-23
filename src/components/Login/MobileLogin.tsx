@@ -2,7 +2,7 @@ import React, { useState, FC } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button, Form, Input, message } from 'antd';
 import { HourglassOutlined, UserOutlined } from '@ant-design/icons';
-import { getFakeSmsCaptcha } from '@/services/api';
+import { getFakeSmsCaptcha } from '@/apis/api';
 import { useAuthContext } from '@/components/Provider/AuthContext';
 import { generateUUID } from '@/lib/utils';
 

@@ -1,12 +1,10 @@
-import Cookies from 'js-cookie';
+import { ACCESS_TOKEN } from '@/config/constants';
 
-const domain =
-  process.env.NODE_ENV === 'production' ? 'openbytecode.com' : 'localhost';
 /**
  * 从 Cookie 中获取 accessToken
  */
 export function getAccessToken() {
-  return Cookies.get('accessToken');
+  return localStorage.getItem(ACCESS_TOKEN);
 }
 
 /**
@@ -14,15 +12,12 @@ export function getAccessToken() {
  * @param accessToken
  */
 export function setAccessToken(accessToken: string) {
-  Cookies.set('accessToken', accessToken, {
-    domain: domain,
-    expires: 15,
-  });
+  localStorage.setItem(ACCESS_TOKEN, accessToken);
 }
 
 /**
  * 将 Cookie 中的 accessToken 移除
  */
 export function removeAccessToken() {
-  return Cookies.remove('accessToken');
+  localStorage.removeItem(ACCESS_TOKEN);
 }

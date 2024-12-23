@@ -4,7 +4,7 @@ import { API } from '@/types/typings';
 
 /** 获取当前的用户 GET /user/currentUser */
 export async function currentUser() {
-  return request.get<API.CurrentUser>('/user/currentUser');
+  return request.get<API.CurrentUser>('/auth/profile');
 }
 
 /** 登录接口 POST /login/list */
@@ -18,11 +18,11 @@ export async function outLogin() {
 }
 
 export async function getFakeImageCaptcha(params: Partial<API.CaptchaParams>) {
-  return request.post('/captcha/create/image', params);
+  return request.post('/captcha/image', params);
 }
 
 export async function getFakeSmsCaptcha(params: Partial<API.CaptchaParams>) {
-  return request.post('/captcha/create/sms', params);
+  return request.post('/captcha/sms', params);
 }
 
 export async function updateUser(params: Partial<API.User>) {

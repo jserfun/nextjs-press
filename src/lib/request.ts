@@ -1,4 +1,7 @@
 import axios from 'axios';
+import { getAccessToken } from './cache';
+import { useRouter } from 'next/router';
+import { message } from 'antd';
 
 export interface PageQuery {
   current?: number;
@@ -18,7 +21,7 @@ export interface DateTimeQuery {
 // api 服务端api定义
 export interface Result<T> {
   code: number;
-  msg: string;
+  message: string;
   data?: T;
 }
 
@@ -51,13 +54,25 @@ export interface PageResult<T> {
 
 const isSuccess = (r: Result<any>) => r.code === 200;
 
-const instance = axios.create({
+const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
   timeout: 10000,
   withCredentials: true,
 });
 
-instance.interceptors.response.use(
+axiosInstance.interceptors.request.use(
+  (config) => {
+    if (getAccessToken()) {
+      config.headers['Authorization'] = 'Bearer ' + getAccessToken();
+    }
+
+    return config;
+  },
+  (err) => Promise.reject(err)
+);
+
+axiosInstance.interceptors.response.use(
+  // @ts-ignore
   (response) => {
     if (!response || !response.status) {
       return Promise.reject('网络异常，请检查您的网络');
@@ -70,32 +85,43 @@ instance.interceptors.response.use(
     const result = response.data as Result<any>;
 
     if (!isSuccess(result)) {
-      return Promise.reject(`${result.msg}`);
+      return Promise.reject(`${result.message}`);
     }
 
     return result.data;
   },
   (error) => {
+    console.error('response error: %o', error);
+
+    const router = useRouter();
+
+    if (error.response?.status === 401) {
+      message.error('401');
+      router.push('/login');
+    } else {
+      console.error('request error: %o', error);
+    }
+
     return Promise.reject(error);
   }
 );
 
 const getReq = <T>(url: string, params?: Record<string, any>): Promise<T> => {
-  return instance.get(url, {
+  return axiosInstance.get(url, {
     params,
   });
 };
 
 const postReq = <T>(url: string, data: Record<string, any>): Promise<T> => {
-  return instance.post(url, data);
+  return axiosInstance.post(url, data);
 };
 
 const putReq = <T>(url: string, data: Record<string, any>): Promise<T> => {
-  return instance.put(url, data);
+  return axiosInstance.patch(url, data);
 };
 
 const deleteReq = <T>(url: string, data?: Record<string, any>): Promise<T> => {
-  return instance.delete(url, { data });
+  return axiosInstance.delete(url, { data });
 };
 
 export const request = {

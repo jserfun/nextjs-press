@@ -1,6 +1,6 @@
 import { message, Divider, Card, Form } from 'antd';
 import React, { useState } from 'react';
-import { fetchUserPage, updateUser, removeUser, addUser } from '@/services/api';
+import { fetchUserPage, updateUser, removeUser, addUser } from '@/apis/api';
 import { confirmModal } from '@/components/ConfirmModel';
 import { ColumnsType } from 'antd/es/table';
 import BaseLayout from '@/components/Layout';
