@@ -55,16 +55,15 @@ const AccountLogin: React.FC<FormLoginProps> = ({ redirect }) => {
     //   .catch((error) => {
     //     message.error(`获取验证码失败:${error}`);
     //   });
+    // ------------------------------------------------------------
     setImageUrl(
-      'http://localhost:4060/api/v1/captcha/image?deviceId=my-chrome-browser&t=' +
-        Date.now()
+      '/api/v1/captcha/image?deviceId=my-chrome-browser&t=' + Date.now()
     );
   }, []);
 
   useEffect(() => {
     setImageUrl(
-      'http://localhost:4060/api/v1/captcha/image?deviceId=my-chrome-browser&t=' +
-        Date.now()
+      '/api/v1/captcha/image?deviceId=my-chrome-browser&t=' + Date.now()
     );
   }, []);
 
