@@ -93,34 +93,39 @@ axiosInstance.interceptors.response.use(
   (error) => {
     console.error('response error: %o', error);
 
-    const router = useRouter();
-
     if (error.response?.status === 401) {
       message.error('401');
-      router.push('/login');
-    } else {
-      console.error('request error: %o', error);
+      window.location.href = '/login';
     }
 
     return Promise.reject(error);
   }
 );
 
-const getReq = <T>(url: string, params?: Record<string, any>): Promise<T> => {
+const getReq = <T>(
+  url: string,
+  params: Record<string, any> = {}
+): Promise<T> => {
   return axiosInstance.get(url, {
     params,
   });
 };
 
-const postReq = <T>(url: string, data: Record<string, any>): Promise<T> => {
+const postReq = <T>(
+  url: string,
+  data: Record<string, any> = {}
+): Promise<T> => {
   return axiosInstance.post(url, data);
 };
 
-const putReq = <T>(url: string, data: Record<string, any>): Promise<T> => {
+const putReq = <T>(url: string, data: Record<string, any> = {}): Promise<T> => {
   return axiosInstance.patch(url, data);
 };
 
-const deleteReq = <T>(url: string, data?: Record<string, any>): Promise<T> => {
+const deleteReq = <T>(
+  url: string,
+  data: Record<string, any> = {}
+): Promise<T> => {
   return axiosInstance.delete(url, { data });
 };
 

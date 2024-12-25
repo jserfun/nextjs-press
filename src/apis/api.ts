@@ -4,20 +4,20 @@ import { API } from '@/types/typings';
 
 /** 获取当前的用户 GET /user/currentUser */
 export async function currentUser() {
-  return request.get<API.CurrentUser>('/auth/profile');
+  return request.post('/auth/profile');
 }
 
 /** 登录接口 POST /login/list */
 export async function login(body: API.LoginParams) {
-  return request.post(`/login/${body.type}`, body);
+  return request.post(`/auth/login`, body);
 }
 
 /** 退出登录接口 POST /login/outLogin */
-export async function outLogin() {
-  return request.get('/login/outLogin', { accessToken: getAccessToken() });
+export async function logout() {
+  return request.post('/auth/logout', { accessToken: getAccessToken() });
 }
 
-export async function getFakeImageCaptcha(params: Partial<API.CaptchaParams>) {
+export async function getCaptchaImage(params: Partial<API.CaptchaParams>) {
   return request.post('/captcha/image', params);
 }
 

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { currentUser, login } from '@/apis/api';
-import { getFakeImageCaptcha } from '@/apis/api';
+import { getCaptchaImage } from '@/apis/api';
 import { Button, Form, Image, Input, message } from 'antd';
 import {
   HourglassOutlined,
@@ -16,7 +16,6 @@ interface FormLoginProps {
   redirect: string;
 }
 
-const deviceId = generateUUID();
 const AccountLogin: React.FC<FormLoginProps> = ({ redirect }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -26,18 +25,16 @@ const AccountLogin: React.FC<FormLoginProps> = ({ redirect }) => {
   const onFinish = async (values: any) => {
     setLoading(true);
     try {
-      const response: any = await login({
+      const { user, accessToken }: any = await login({
         ...values,
-        deviceId,
-        type: 'account',
+        type: 'captcha',
       });
 
-      const user = await currentUser();
       if (user) {
         setUser(user);
         message.success('登录成功！');
-        setAccessToken(response.accessToken);
-        router.replace(redirect);
+        setAccessToken(accessToken);
+        router.replace(redirect ?? '/dashboard');
       }
     } catch (error) {
       message.error(`登录失败: ${error}`);
@@ -47,7 +44,7 @@ const AccountLogin: React.FC<FormLoginProps> = ({ redirect }) => {
   };
 
   const onGetImageCaptcha = useCallback(async () => {
-    // getFakeImageCaptcha({ deviceId: deviceId })
+    // getCaptchaImage({ deviceId: deviceId })
     //   .then((result: any) => {
     //     console.log('onGetImageCaptcha: %o', result);
     //     setImageUrl(`data:image/svg+xml;base64,${result.imageCode}`);
@@ -56,15 +53,11 @@ const AccountLogin: React.FC<FormLoginProps> = ({ redirect }) => {
     //     message.error(`获取验证码失败:${error}`);
     //   });
     // ------------------------------------------------------------
-    setImageUrl(
-      '/api/v1/captcha/image?deviceId=my-chrome-browser&t=' + Date.now()
-    );
+    setImageUrl('/api/v1/captcha/image?t=' + Date.now());
   }, []);
 
   useEffect(() => {
-    setImageUrl(
-      '/api/v1/captcha/image?deviceId=my-chrome-browser&t=' + Date.now()
-    );
+    setImageUrl('/api/v1/captcha/image?t=' + Date.now());
   }, []);
 
   return (
@@ -95,7 +88,7 @@ const AccountLogin: React.FC<FormLoginProps> = ({ redirect }) => {
           />
         </Form.Item>
         <Form.Item
-          name='captcha'
+          name='code'
           rules={[{ required: true, message: '请输入验证码!' }]}
         >
           <div
