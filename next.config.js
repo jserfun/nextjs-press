@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  // true: 渲染2次？
+  reactStrictMode: false,
   transpilePackages: ['antd', '@ant-design/icons'],
   async rewrites() {
     return [

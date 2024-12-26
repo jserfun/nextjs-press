@@ -40,8 +40,9 @@ const Header: React.FC<Props> = ({ collapsed, setCollapsed }: Props) => {
         await logout();
 
         removeAccessToken();
-        setUser(null);
         message.success('已退出登录');
+
+        setUser(null);
 
         router.replace('/login');
       },

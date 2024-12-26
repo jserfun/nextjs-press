@@ -4,18 +4,21 @@ import Document, { Html, Head, Main, NextScript } from 'next/document';
 import type { DocumentContext } from 'next/document';
 
 const MyDocument = () => {
+  console.log('MyDocument');
+
   return (
     <Html lang='en'>
-      <Head />
-      <body style={{ margin: 0 }}>
-        <Main />
-        <NextScript />
+      <Head></Head>
+      <body>
+        <Main></Main>
+        <NextScript></NextScript>
       </body>
     </Html>
   );
 };
 
-MyDocument.getInitialProps = async (ctx: DocumentContext) => {
+/** TODO: getInitialProps -> getStaticProps  */
+MyDocument.getStaticProps = async (ctx: DocumentContext) => {
   const cache = createCache();
   const originalRenderPage = ctx.renderPage;
   ctx.renderPage = () =>

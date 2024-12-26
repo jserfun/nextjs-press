@@ -8,6 +8,8 @@ export default function App({
   Component,
   pageProps: { ...pageProps },
 }: AppProps) {
+  console.log('[App] typeof window: %s', typeof window);
+
   return (
     <>
       <ThemeProvider>

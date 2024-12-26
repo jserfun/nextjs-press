@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Card, Col, Row, Statistic } from 'antd';
 import { BarChartOutlined, DashboardOutlined } from '@ant-design/icons';
-import BaseLayout from '@/components/Layout';
+import DefaultLayout from '@/components/Layout';
 
 const TableList: React.FC = () => {
-  return <BaseLayout>dashboard</BaseLayout>;
+  return <DefaultLayout>dashboard</DefaultLayout>;
 };
 
 export default TableList;

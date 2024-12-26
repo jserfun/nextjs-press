@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 import { type Config } from 'tailwindcss';
+
 export default {
   darkMode: 'class',
   mode: 'jit',
@@ -10,6 +11,12 @@ export default {
     './src/pages/**/*.{js,ts,jsx,tsx}',
     './src/components/**/*.{js,ts,jsx,tsx}',
   ],
-  theme: {},
+  theme: {
+    extend: {
+      colors: {
+        customColor: '#abcdef',
+      },
+    },
+  },
   plugins: [],
 } as Config;

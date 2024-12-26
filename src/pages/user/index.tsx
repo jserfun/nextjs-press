@@ -1,4 +1,4 @@
-import BaseLayout from '@/components/Layout';
+import DefaultLayout from '@/components/Layout';
 import { Button } from 'antd';
 import { useCallback } from 'react';
 import { request } from '../../lib/request';
@@ -10,12 +10,12 @@ export default () => {
   }, []);
 
   return (
-    <BaseLayout>
+    <DefaultLayout>
       <div>
         user
         <div></div>
         <Button onClick={onTest}>test</Button>
       </div>
-    </BaseLayout>
+    </DefaultLayout>
   );
 };

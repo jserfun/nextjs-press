@@ -35,7 +35,7 @@ const items: MenuItem[] = menuItems.map((item) => getItem(item));
 
 const { Content, Sider } = Layout;
 
-const BaseLayout = ({ children }: any) => {
+const DefaultLayout = ({ children }: any) => {
   const router = useRouter();
   const { theme } = useThemeContext();
   const cleanedPath = router.asPath.split(/[\?\#]/)[0];
@@ -117,4 +117,4 @@ const BaseLayout = ({ children }: any) => {
   );
 };
 
-export default BaseLayout;
+export default DefaultLayout;

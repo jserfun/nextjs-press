@@ -11,6 +11,7 @@ import {
 import { generateUUID } from '@/lib/utils';
 import { useAuthContext } from '@/components/Provider/AuthContext';
 import { setAccessToken } from '@/lib/cache';
+import { messageChannel1 } from '@/lib/message-channel';
 
 interface FormLoginProps {
   redirect: string;
@@ -58,6 +59,10 @@ const AccountLogin: React.FC<FormLoginProps> = ({ redirect }) => {
 
   useEffect(() => {
     setImageUrl('/api/v1/captcha/image?t=' + Date.now());
+  }, []);
+
+  useEffect(() => {
+    messageChannel1.port2.postMessage({ msg: 'hello' });
   }, []);
 
   return (

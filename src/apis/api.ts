@@ -26,7 +26,7 @@ export async function getFakeSmsCaptcha(params: Partial<API.CaptchaParams>) {
 }
 
 export async function updateUser(params: Partial<API.User>) {
-  return request.put('/user/update', params);
+  return request.patch('/user/update', params);
 }
 
 export async function addUser(params: Partial<API.User>) {

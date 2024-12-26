@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { fetchUserPage, updateUser, removeUser, addUser } from '@/apis/api';
 import { confirmModal } from '@/components/ConfirmModel';
 import { ColumnsType } from 'antd/es/table';
-import BaseLayout from '@/components/Layout';
+import DefaultLayout from '@/components/Layout';
 import usePaginationRequest from '@/hooks/usePagination';
 import SearchForm from '@/components/User/SearchForm';
 import ProTable from '@/components/ProTable';
@@ -126,7 +126,7 @@ const TableList: React.FC = () => {
   ];
 
   return (
-    <BaseLayout>
+    <DefaultLayout>
       <Card bordered={false}>
         <div className='search-form-wrapper'>
           <SearchForm
@@ -162,7 +162,7 @@ const TableList: React.FC = () => {
           values={updateFormValues}
         />
       ) : null}
-    </BaseLayout>
+    </DefaultLayout>
   );
 };
 

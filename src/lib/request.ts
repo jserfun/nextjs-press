@@ -2,6 +2,7 @@ import axios from 'axios';
 import { getAccessToken } from './cache';
 import { useRouter } from 'next/router';
 import { message } from 'antd';
+import { onUnauthorized } from './auth';
 
 export interface PageQuery {
   current?: number;
@@ -94,44 +95,26 @@ axiosInstance.interceptors.response.use(
     console.error('response error: %o', error);
 
     if (error.response?.status === 401) {
-      message.error('401');
-      window.location.href = '/login';
+      onUnauthorized();
     }
 
     return Promise.reject(error);
   }
 );
 
-const getReq = <T>(
-  url: string,
-  params: Record<string, any> = {}
-): Promise<T> => {
-  return axiosInstance.get(url, {
-    params,
-  });
-};
-
-const postReq = <T>(
-  url: string,
-  data: Record<string, any> = {}
-): Promise<T> => {
-  return axiosInstance.post(url, data);
-};
-
-const putReq = <T>(url: string, data: Record<string, any> = {}): Promise<T> => {
-  return axiosInstance.patch(url, data);
-};
-
-const deleteReq = <T>(
-  url: string,
-  data: Record<string, any> = {}
-): Promise<T> => {
-  return axiosInstance.delete(url, { data });
-};
-
 export const request = {
-  get: getReq,
-  post: postReq,
-  put: putReq,
-  delete: deleteReq,
+  get<T = any>(url: string, params: Record<string, any> = {}): Promise<T> {
+    return axiosInstance.get(url, {
+      params,
+    });
+  },
+  post<T = any>(url: string, data: Record<string, any> = {}): Promise<T> {
+    return axiosInstance.post(url, data);
+  },
+  patch<T = any>(url: string, data: Record<string, any> = {}): Promise<T> {
+    return axiosInstance.patch(url, data);
+  },
+  delete<T = any>(url: string, data: Record<string, any> = {}): Promise<T> {
+    return axiosInstance.delete(url, { data });
+  },
 };
