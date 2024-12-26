@@ -42,7 +42,10 @@ const DefaultLayout = ({ children }: any) => {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
+    <Layout
+      className='app-layout app-layout-default'
+      style={{ minHeight: '100vh' }}
+    >
       <div
         style={{
           width: collapsed ? collapsedWidth : siderWidth,

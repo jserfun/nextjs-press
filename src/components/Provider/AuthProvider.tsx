@@ -4,7 +4,11 @@ import { currentUser } from '@/apis/api';
 import { getAccessToken } from '@/lib/cache';
 import { useRouter } from 'next/router';
 import { message } from 'antd';
-import { messageChannel1 } from '@/lib/message-channel';
+import {
+  IEventMessageData,
+  IMessageData,
+  messageChannel1,
+} from '@/lib/message-channel';
 
 export interface AuthProviderProps {
   children: React.ReactNode;
@@ -31,9 +35,10 @@ export function AuthProvider(props: AuthProviderProps) {
   }, []);
 
   useEffect(() => {
-    messageChannel1.port1.onmessage = (ev) => {
-      console.log('messageChannel1.port1 - ev: %o', ev);
-      messageApi.info(ev.data.msg);
+    messageChannel1.port1.onmessage = ({ data }: IEventMessageData) => {
+      const { type, msg } = data;
+      // @ts-ignore
+      messageApi[type](msg);
     };
 
     return () => {

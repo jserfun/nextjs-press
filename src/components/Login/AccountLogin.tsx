@@ -11,7 +11,7 @@ import {
 import { generateUUID } from '@/lib/utils';
 import { useAuthContext } from '@/components/Provider/AuthContext';
 import { setAccessToken } from '@/lib/cache';
-import { messageChannel1 } from '@/lib/message-channel';
+import { messageChannel1, showMsg } from '@/lib/message-channel';
 
 interface FormLoginProps {
   redirect: string;
@@ -62,7 +62,7 @@ const AccountLogin: React.FC<FormLoginProps> = ({ redirect }) => {
   }, []);
 
   useEffect(() => {
-    messageChannel1.port2.postMessage({ msg: 'hello' });
+    showMsg('hello world');
   }, []);
 
   return (

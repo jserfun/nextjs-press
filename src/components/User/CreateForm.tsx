@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Button, Input, Modal } from 'antd';
-import { API } from '@/types/typings';
+import { API } from '@/types/api';
 
 export interface CreateFormProps {
   onCancel: (flag?: boolean, formVals?: Partial<API.User>) => void;

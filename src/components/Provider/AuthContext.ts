@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
-import { API } from '@/types/typings';
 import { MessageInstance } from 'antd/es/message/interface';
+import { API } from '@/types/api';
 
 export interface AuthContextValue {
-  user: API.User;
-  setUser: (user: API.User) => void;
+  user: API.User | null;
+  setUser: (user: API.User | null) => void;
   messageApi: MessageInstance;
 }
 

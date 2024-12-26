@@ -1,4 +1,4 @@
-import { ACCESS_TOKEN } from '@/config/constants';
+import { ACCESS_TOKEN } from '../config/constants';
 
 /**
  * 从 Cookie 中获取 accessToken

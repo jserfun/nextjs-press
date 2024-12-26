@@ -1,14 +1,14 @@
 import { message, Divider, Card, Form } from 'antd';
 import React, { useState } from 'react';
-import { fetchUserPage, updateUser, removeUser, addUser } from '@/apis/api';
-import { confirmModal } from '@/components/ConfirmModel';
+import { fetchUserPage, updateUser, removeUser, addUser } from '../../apis/api';
+import { confirmModal } from '../../components/ConfirmModel';
 import { ColumnsType } from 'antd/es/table';
-import DefaultLayout from '@/components/Layout';
-import usePaginationRequest from '@/hooks/usePagination';
-import SearchForm from '@/components/User/SearchForm';
-import ProTable from '@/components/ProTable';
-import CreateForm from '@/components/User/CreateForm';
-import { API } from '@/types/typings';
+import DefaultLayout from '../../components/Layout';
+import usePaginationRequest from '../../hooks/usePagination';
+import SearchForm from '../../components/User/SearchForm';
+import ProTable from '../../components/ProTable';
+import CreateForm from '../../components/User/CreateForm';
+import { API } from '../../types/api';
 
 const TableList: React.FC = () => {
   const [form] = Form.useForm();

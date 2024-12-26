@@ -4,7 +4,7 @@ import Document, { Html, Head, Main, NextScript } from 'next/document';
 import type { DocumentContext } from 'next/document';
 
 const MyDocument = () => {
-  console.log('MyDocument');
+  // console.log('[MyDocument]');
 
   return (
     <Html lang='en'>

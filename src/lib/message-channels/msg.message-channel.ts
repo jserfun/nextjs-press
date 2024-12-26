@@ -26,5 +26,3 @@ export interface IMessageData {
 export interface IEventMessageData {
   data: IMessageData;
 }
-
-export const messageChannel2 = new MessageChannel();

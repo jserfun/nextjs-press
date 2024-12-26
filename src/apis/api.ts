@@ -1,6 +1,6 @@
-import { getAccessToken } from '@/lib/cache';
-import { PageResult, request } from '@/lib/request';
-import { API } from '@/types/typings';
+import { getAccessToken } from '../lib/cache';
+import { PageResult, request } from '../lib/request';
+import { API } from '../types/api';
 
 /** 获取当前的用户 GET /user/currentUser */
 export async function currentUser() {

@@ -17,6 +17,7 @@ export function ThemeProvider(props: ThemeProviderProps) {
       <ConfigProvider
         locale={locale}
         theme={{
+          cssVar: true,
           algorithm:
             value === 'light' ? theme.defaultAlgorithm : theme.darkAlgorithm,
         }}
