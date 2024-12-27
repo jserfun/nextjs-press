@@ -1,7 +1,6 @@
 import React from 'react';
 import { createCache, extractStyle, StyleProvider } from '@ant-design/cssinjs';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
-import type { DocumentContext } from 'next/document';
 
 const MyDocument = () => {
   // console.log('[MyDocument]');
@@ -18,12 +17,12 @@ const MyDocument = () => {
 };
 
 /** TODO: getInitialProps -> getStaticProps  */
-MyDocument.getStaticProps = async (ctx: DocumentContext) => {
+MyDocument.getStaticProps = async (ctx: any) => {
   const cache = createCache();
   const originalRenderPage = ctx.renderPage;
   ctx.renderPage = () =>
     originalRenderPage({
-      enhanceApp: (App) => (props) => (
+      enhanceApp: (App: any) => (props: any) => (
         <StyleProvider cache={cache}>
           <App {...props} />
         </StyleProvider>

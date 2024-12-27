@@ -12,6 +12,10 @@ body {
   margin: 0;
 }
 
+nextjs-portal {
+  display: none;
+}
+
 .app-layout {
   height: 100%;
 }

@@ -1,15 +1,18 @@
+import { emitRouter } from '@/lib/message-channels/router.channel';
 import { logout } from '../apis/api';
-import { removeAccessToken } from './cache';
+import { getAccessToken, removeAccessToken } from './cache';
 
 export const onUnauthorized = async () => {
   try {
-    await logout();
-  } catch (err) {
-    return;
-  }
+    if (getAccessToken()) {
+      await logout();
+      removeAccessToken();
+    }
 
-  removeAccessToken();
-  location.href = '/login';
+    emitRouter({ action: 'replace', args: ['/login'], type: 'auth-replace' });
+  } catch (err) {
+    console.error('[onUnauthorized] - err: %o', err);
+  }
 };
 
 export const signin = async () => {};

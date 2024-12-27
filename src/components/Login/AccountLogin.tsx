@@ -8,10 +8,9 @@ import {
   LockOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { generateUUID } from '@/lib/utils';
 import { useAuthContext } from '@/components/Provider/AuthContext';
 import { setAccessToken } from '@/lib/cache';
-import { messageChannel1, showMsg } from '@/lib/message-channel';
+import { showMsg } from '@/lib/message-channels/msg.channel';
 
 interface FormLoginProps {
   redirect: string;
@@ -44,26 +43,17 @@ const AccountLogin: React.FC<FormLoginProps> = ({ redirect }) => {
     }
   };
 
-  const onGetImageCaptcha = useCallback(async () => {
-    // getCaptchaImage({ deviceId: deviceId })
-    //   .then((result: any) => {
-    //     console.log('onGetImageCaptcha: %o', result);
-    //     setImageUrl(`data:image/svg+xml;base64,${result.imageCode}`);
-    //   })
-    //   .catch((error) => {
-    //     message.error(`获取验证码失败:${error}`);
-    //   });
-    // ------------------------------------------------------------
+  const onGetImageCaptcha = useCallback(() => {
     setImageUrl('/api/v1/captcha/image?t=' + Date.now());
   }, []);
 
   useEffect(() => {
-    setImageUrl('/api/v1/captcha/image?t=' + Date.now());
+    onGetImageCaptcha();
   }, []);
 
-  useEffect(() => {
-    showMsg('hello world');
-  }, []);
+  // useEffect(() => {
+  //   showMsg('hello world');
+  // }, []);
 
   return (
     <>

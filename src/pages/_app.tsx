@@ -1,22 +1,29 @@
-import React from 'react';
 import '@/styles/globals.css';
-import { AppProps } from 'next/app';
+import React from 'react';
+import App from 'next/app';
+import { ErrorBoundary } from 'react-error-boundary';
 import { AuthProvider } from '@/components/Provider/AuthProvider';
 import { ThemeProvider } from '@/components/Provider/ThemeProvider';
 
-export default function App({
-  Component,
-  pageProps: { ...pageProps },
-}: AppProps) {
-  console.log('[App] typeof window: %s', typeof window);
+class MyApp extends App {
+  componentDidCatch(error: any, info: any) {
+    // You can log the error here or send it to a monitoring service
+    console.error('An error occurred:', error, info);
+  }
 
-  return (
-    <>
-      <ThemeProvider>
-        <AuthProvider>
-          <Component {...pageProps} />
-        </AuthProvider>
-      </ThemeProvider>
-    </>
-  );
+  render() {
+    const { Component, pageProps, err } = this.props;
+
+    return (
+      <ErrorBoundary fallback={<div>error</div>}>
+        <ThemeProvider>
+          <AuthProvider>
+            <Component {...pageProps} />
+          </AuthProvider>
+        </ThemeProvider>
+      </ErrorBoundary>
+    );
+  }
 }
+
+export default MyApp;

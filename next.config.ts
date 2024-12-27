@@ -19,6 +19,16 @@ export default withBundleAnalyzer({
       },
     ];
   },
+  // ------------------------------------
+  // webpack: (config, { dev, isServer }) => {
+  //   if (dev && !isServer) {
+  //     // Disable the error overlay
+  //     config.plugins = config.plugins.filter(
+  //       (plugin) => !(plugin instanceof ReactRefreshErrorOverlay || plugin instanceof ReactDevOverlay)
+  //     );
+  //   }
+  //   return config;
+  // },
   // babel 模式
   // ------------------------------------
   // webpack: (config, { isServer }) => {

@@ -1,8 +1,8 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { getAccessToken } from './cache';
-import { useRouter } from 'next/router';
-import { message } from 'antd';
 import { onUnauthorized } from './auth';
+import { showMsg } from '@/lib/message-channels/msg.channel';
+import { isString } from 'antd/es/button';
 
 export interface PageQuery {
   current?: number;
@@ -72,26 +72,65 @@ axiosInstance.interceptors.request.use(
   (err) => Promise.reject(err)
 );
 
+class ResponseError extends Error {
+  public readonly response: AxiosResponse;
+
+  constructor(response: AxiosResponse, msg: string) {
+    super(msg);
+    this.response = response;
+  }
+}
+
 axiosInstance.interceptors.response.use(
   // @ts-ignore
   (response) => {
     if (!response || !response.status) {
-      return Promise.reject('网络异常，请检查您的网络');
+      return Promise.reject(
+        new ResponseError(response, '网络异常，请检查您的网络')
+      );
+    }
+
+    const contentType = response.headers['content-type'];
+
+    if (isString(contentType)) {
+      if (contentType.indexOf('application/octet-stream') > -1) {
+        downloadFileFromResponse(response);
+        return;
+      }
     }
 
     if (response.status !== 200) {
-      return Promise.reject(`${response.status}: ${response.config.url}`);
+      return Promise.reject(
+        new ResponseError(
+          response,
+          `${response.status}: ${response.config.url}`
+        )
+      );
     }
 
     const result = response.data as Result<any>;
 
     if (!isSuccess(result)) {
-      return Promise.reject(`${result.message}`);
+      return Promise.reject(new ResponseError(response, result.message));
     }
 
     return result.data;
   },
   (error) => {
+    const msg = !error
+      ? '[Error None Message]'
+      : typeof error === 'string'
+        ? error
+        : error.response
+          ? error.response.data?.message || error.response.data?.msg
+          : error.message
+            ? error.message
+            : '[Error Unknown Message]';
+
+    showMsg({ type: 'error', msg });
+
+    // TODO: log to the remote
+    // method, url, error message
     console.error('response error: %o', error);
 
     if (error.response?.status === 401) {
@@ -117,4 +156,29 @@ export const request = {
   delete<T = any>(url: string, data: Record<string, any> = {}): Promise<T> {
     return axiosInstance.delete(url, { data });
   },
+  download(url: string, params: Record<string, any> = {}): Promise<void> {
+    return axiosInstance.get(url, {
+      params,
+      responseType: 'blob',
+    });
+  },
 };
+
+function downloadFileFromResponse(response: any) {
+  const blob = response.data;
+  const filename = response.headers['content-disposition']
+    .split('filename=')
+    .pop();
+
+  const blobUrl = URL.createObjectURL(blob);
+
+  const a = document.createElement('a');
+  a.download = filename;
+  a.href = blobUrl;
+
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  URL.revokeObjectURL(blobUrl);
+}

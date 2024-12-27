@@ -4,7 +4,7 @@ import { API } from '../types/api';
 
 /** 获取当前的用户 GET /user/currentUser */
 export async function currentUser() {
-  return request.post('/auth/profile');
+  return request.get('/auth/profile');
 }
 
 /** 登录接口 POST /login/list */

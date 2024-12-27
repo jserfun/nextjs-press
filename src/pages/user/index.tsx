@@ -1,21 +1,40 @@
 import DefaultLayout from '@/components/Layout';
-import { Button } from 'antd';
-import { useCallback } from 'react';
-import { request } from '../../lib/request';
+import { Button, Spin } from 'antd';
+import { useCallback, useState } from 'react';
+import { request } from '@/lib/request';
 
 export default () => {
+  const [loading, setLoading] = useState(false);
+
   const onTest = useCallback(async () => {
-    const res = await request.get('/post');
-    console.log('res: %o', res);
+    try {
+      const res = await request.get('/post');
+      console.log('res: %o', res);
+    } catch (err) {}
+  }, []);
+
+  const onDownload = useCallback(async () => {
+    try {
+      setLoading(true);
+      await request.download('/file/image/download', {
+        key: 'blog-local/uploads/2024-12-19T20-19-27-936--0a704c7513dc45268b4c6ada15bd8a99.jpg',
+      });
+    } catch (err) {
+      console.error('onDownload :%o', err);
+    }
+    setLoading(false);
   }, []);
 
   return (
     <DefaultLayout>
-      <div>
-        user
-        <div></div>
-        <Button onClick={onTest}>test</Button>
-      </div>
+      <Spin spinning={loading}>
+        <div>
+          user
+          <div></div>
+          <Button onClick={onTest}>test</Button>
+          <Button onClick={onDownload}>download</Button>
+        </div>
+      </Spin>
     </DefaultLayout>
   );
 };

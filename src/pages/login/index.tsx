@@ -8,7 +8,7 @@ import { useLoginRedirect } from '@/hooks/useLoginRedirect';
 import { useThemeContext } from '@/components/Provider/ThemeContext';
 import EmptyLayout from '@/components/Layout/EmptyLayout';
 
-const items: TabsProps['items'] = [
+const items = [
   {
     key: 'account',
     label: '账户密码登录',
@@ -19,7 +19,7 @@ const items: TabsProps['items'] = [
   },
 ];
 
-const Login: React.FC = () => {
+const Login = () => {
   console.log('[Login] render test');
   const redirect = useLoginRedirect();
   const { theme } = useThemeContext();
